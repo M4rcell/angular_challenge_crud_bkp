@@ -1,0 +1,65 @@
+<div class="wp-home">
+  <div class="wp-home__filter">
+    <input
+      class="wp-home__filter--search"
+      type="text"
+      placeholder="Search.."
+      name="hola"
+      id="" />
+    <button class="wp-home__filter--add">Agregar</button>
+  </div>
+  <div class="wp-home__table">
+    <div class="wp-home__table--wp">
+      <table class="table">
+        <tr class="table__header">
+          <th>Logo</th>
+          <th>Nombre de producto</th>
+          <th>Descripcion</th>
+          <th>Fecha de liberacion</th>
+          <th>Fecha de reestructuracion</th>
+          <th></th>
+        </tr>
+        <tr class="table__body">
+          <td>Kiko</td>
+          <td>Palomares</td>
+          <td>España</td>
+          <td>España</td>
+          <td>España</td>
+          <td>
+            <div class="icon-container">
+              <span class="table__body--icon" (click)="toggleContextMenu()"
+                >&#8942;</span
+              >
+              <ul class="context-menu" [ngClass]="{ show: showContextMenu }">
+                <li (click)="editar()">Editar</li>
+                <li (click)="eliminar()">Eliminar</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr class="table__body">
+          <td>Juan</td>
+          <td>Hernández</td>
+          <td>México</td>
+          <td>México</td>
+          <td>México</td>
+          <td><span class="table__body--icon">&#8942;</span></td>
+        </tr>
+        <tr class="table__body">
+          <td>Sofía</td>
+          <td>Martínez</td>
+          <td>Argentina</td>
+          <td>Argentina</td>
+          <td>Argentina</td>
+          <td><span class="table__body--icon">&#8942;</span></td>
+        </tr>
+      </table>
+    </div>
+    <div class="wp-home__counter">
+      <div class="wp-home__counter--result">5 resultados</div>
+      <select class="wp-home__counter--select" name="" id="">
+        <option value="">5</option>
+      </select>
+    </div>
+  </div>
+</div>

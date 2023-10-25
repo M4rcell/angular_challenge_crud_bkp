@@ -1,0 +1,27 @@
+
+.wrapper{
+  background-color: #f4f6f9;
+  margin: 0;
+  padding: 0;
+  height: 98vh;
+  &__header{
+    text-align: center;
+    background-color: white;
+    &--image{
+      width: 380px;
+      height: 150;
+    }
+
+  }
+
+  &__body{
+    //text-align: center;
+
+
+
+  }
+}
+
+
+
+
