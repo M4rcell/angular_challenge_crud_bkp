@@ -83,7 +83,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   getAllProductFinance() {
     this.subscription.add(
       this.financeService.getProductFinance().subscribe(
-        response => {
+        (response: Finance) => {
           //this.productFinanceData = response;
         },
         error => {
@@ -94,15 +94,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   editar(value: Finance) {
-    console.log('🚀  editar ~ value:', value);
     this.financeService.setSharetProductFinance(value);
     const id = value.id;
     this.router.navigate(['/editar', id]);
   }
 
   eliminar(value: Finance) {
-    console.log('🚀  eliminar ~ value:', value);
-    // Acción de eliminar
     this.subscription.add(
       this.financeService.deleteProductFinance(value.id).subscribe(
         response => {
