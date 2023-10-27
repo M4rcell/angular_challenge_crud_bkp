@@ -1,0 +1,188 @@
+<div class="wp-form">
+  <div class="wp-form__header">Formulario de Registro</div>
+  <hr ize="10px" />
+  <form [formGroup]="addForm" action="" class="wp-form__form">
+    <div>
+      <div class="wp-form__field">
+        <label class="wp-form__field--label" for="id">ID</label>
+        <div
+          class="wp-form__field--wp-input"
+          [class.error]="
+            addForm.get('id')?.hasError('required') &&
+            addForm.get('id')?.touched &&
+            addForm.controls['id'].errors
+          ">
+          <input
+            class="wp-form__field--input"
+            type="text"
+            name=""
+            id=""
+            formControlName="id"
+            [readonly]="disableProductId" />
+        </div>
+
+        <div
+          *ngIf="addForm.get('id')?.touched && addForm.controls['id'].errors"
+          class="wp-form__field--error-text">
+          ID no valido!.
+        </div>
+      </div>
+      <div class="wp-form__field-textarea">
+        <label class="wp-form__field-textarea--label" for="id"
+          >Descripcion</label
+        >
+        <div
+          class="wp-form__field-textarea--wp-textarea"
+          [class.error]="
+            addForm.get('description')?.hasError('required') &&
+            addForm.get('description')?.touched &&
+            addForm.controls['description'].errors
+          ">
+          <textarea
+            class="wp-form__field-textarea--textarea"
+            type="text"
+            name=""
+            id=""
+            formControlName="description"
+            cols="5"
+            rows="3"></textarea>
+        </div>
+
+        <div
+          *ngIf="
+            addForm.get('description')?.touched &&
+            addForm.controls['description'].errors
+          "
+          class="wp-form__field--error-text">
+          Este campo es requerido.
+        </div>
+      </div>
+      <div class="wp-form__field">
+        <label class="wp-form__field--label" for="id">Fecha Liberacion</label>
+        <div
+          class="wp-form__field--wp-input"
+          [class.error]="
+            addForm.get('date_release')?.hasError('required') &&
+            addForm.get('date_release')?.touched &&
+            addForm.controls['date_release'].errors
+          ">
+          <input
+            class="wp-form__field--input"
+            type="date"
+            name=""
+            id=""
+            (change)="onChangeDate($event)"
+            formControlName="date_release" />
+        </div>
+
+        <div
+          *ngIf="
+            addForm.get('date_release')?.touched &&
+            addForm.controls['date_release'].errors
+          "
+          class="wp-form__field--error-text">
+          Este campo es requerido.
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="wp-form__field">
+        <label class="wp-form__field--label" for="id">Nombre </label>
+        <div
+          class="wp-form__field--wp-input"
+          [class.error]="
+            addForm.get('name')?.hasError('required') &&
+            addForm.get('name')?.touched &&
+            addForm.controls['name'].errors
+          ">
+          <input
+            class="wp-form__field--input"
+            type="text"
+            name=""
+            id=""
+            formControlName="name" />
+        </div>
+
+        <div
+          *ngIf="
+            addForm.get('name')?.touched && addForm.controls['name'].errors
+          "
+          class="wp-form__field--error-text">
+          Este campo es requerido.
+        </div>
+      </div>
+
+      <div class="wp-form__field-textarea">
+        <label class="wp-form__field-textarea--label" for="id">Logo</label>
+        <div
+          class="wp-form__field-textarea--wp-textarea"
+          [class.error]="
+            addForm.get('logo')?.hasError('required') &&
+            addForm.get('logo')?.touched &&
+            addForm.controls['logo'].errors
+          ">
+          <textarea
+            class="wp-form__field-textarea--textarea"
+            type="text"
+            name=""
+            id=""
+            formControlName="logo"
+            cols="5"
+            rows="3"></textarea>
+        </div>
+
+        <div
+          *ngIf="
+            addForm.get('logo')?.touched && addForm.controls['logo'].errors
+          "
+          class="wp-form__field--error-text">
+          Este campo es requerido.
+        </div>
+      </div>
+      <div class="wp-form__field">
+        <label class="wp-form__field--label" for="id">Fecha Revision</label>
+        <div
+          class="wp-form__field--wp-input"
+          [class.error]="
+            addForm.get('date_revision')?.hasError('required') &&
+            addForm.get('date_revision')?.touched &&
+            addForm.controls['date_revision'].errors
+          ">
+          <input
+            class="wp-form__field--input"
+            type="date"
+            name=""
+            id=""
+            formControlName="date_revision"
+            readonly />
+        </div>
+
+        <div
+          *ngIf="
+            addForm.get('date_revision')?.touched &&
+            addForm.controls['date_revision'].errors
+          "
+          class="wp-form__field--error-text">
+          Este campo es requerido.
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="wp-form__actions">
+    <button class="wp-form__actions--btn-restar" (click)="reset()">
+      Reiniciar
+    </button>
+    <button
+      [ngClass]="
+        !addForm.valid
+          ? 'wp-form__actions--btn-enable'
+          : 'wp-form__actions--btn-restar'
+      "
+      class="wp-form__actions--btn-send"
+      (click)="save()"
+      [disabled]="!addForm.valid">
+      Enviar
+    </button>
+  </div>
+</div>

@@ -1,1 +1,4 @@
-export const environment = {};
+export const environment = {
+  api: 'https://tribu-ti-staffing-desarrollo-afangwbmcrhucqfh.z01.azurefd.net/ipf-msa-productosfinancieros',
+  authorIdKey: '19102023',
+};

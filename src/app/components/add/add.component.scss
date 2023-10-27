@@ -1,0 +1,160 @@
+
+.wp-form{
+  background-color: white;
+  margin: 5% 30% 10% 30%;
+  padding-bottom: 10px;
+
+
+  &__header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-weight: bold;
+    height: 70px;
+  }
+
+  &__form{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 30px;
+  }
+
+  &__field{
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0px;
+    height: 70px;
+
+
+    &--label{
+      font-weight: bold;
+      font-size: 14px;
+      margin-left: 5px;
+      margin-bottom: 3px;
+    }
+
+    &--wp-input{
+      width: 250px;
+      height: 35px;
+      border-radius: 10px;
+      border: 2px solid #cbcbcb;
+      margin: 0px;
+      padding: 0px;
+
+    }
+
+    &--input{
+      margin: 4px 3px 0px 8px;
+      width: 230px;
+      height: 25px;
+      border: 2px solid transparent;
+    }
+
+    &--error-text {
+      border-color: red;
+      color: red;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 5px;
+    }
+
+  }
+
+  &__field-textarea{
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0px 30px 0px;
+    height: 80px;
+
+
+    &--label{
+      font-weight: bold;
+      font-size: 14px;
+      margin-left: 5px;
+      margin-bottom: 3px;
+    }
+
+    &--wp-textarea{
+      width: 250px;
+      height: 80px;
+      border-radius: 10px;
+      border: 2px solid #cbcbcb;
+      margin: 0px;
+      padding: 0px;
+
+    }
+
+    &--textarea{
+      margin: 4px 3px 0px 8px;
+      width: 230px;
+      height: 40px;
+      border: 2px solid transparent;
+    }
+
+    &--error-text {
+      border-color: red;
+      color: red;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 5px;
+    }
+
+  }
+
+  &__actions{
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 40px;
+    margin-bottom: 50px;
+
+    &--btn-restar{
+      background-color: #e9ecf3;
+      border: transparent;
+      color: #3b4e7b;
+      cursor: pointer;
+      border-radius: 5px;
+      font-weight: 600;
+      width: 80px;
+      height: 40px;
+
+    }
+
+    &--btn-send{
+      background-color: #f9de4b;
+      border: transparent;
+      color: #3b4e7b;
+      cursor: pointer;
+      border-radius: 5px;
+      font-weight: 600;
+      width: 80px;
+      height: 40px;
+    }
+
+    &--btn-enable{
+      background-color: #fff199;
+      border: transparent;
+      color: #9fa8be;
+      cursor: pointer;
+      border-radius: 5px;
+      font-weight: 600;
+      width: 80px;
+      height: 40px;
+    }
+  }
+}
+
+.error {
+  border-color: red;
+  border: 2px solid red ;
+}
+
+textarea:focus, input:focus, input[type]:focus {
+  outline: 0 none;
+}
+
+.border-red {
+  border: 1px solid red;
+}
