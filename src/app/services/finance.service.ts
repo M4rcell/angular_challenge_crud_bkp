@@ -21,18 +21,18 @@ export class FinanceService {
     this.dataProductFinance$.next(data);
   }
 
-  createdNewProductFinance(data: Finance): Observable<any> {
+  createdNewProductFinance(data: Finance): Observable<Finance> {
     const body = { ...data };
-    return this.http.post(`${this.apiUrl}/bp/products`, body);
+    return this.http.post<Finance>(`${this.apiUrl}/bp/products`, body);
   }
 
-  updateProductFinance(data: Finance): Observable<any> {
+  updateProductFinance(data: Finance): Observable<Finance> {
     const body = { ...data };
-    return this.http.put(`${this.apiUrl}/bp/products`, body);
+    return this.http.put<Finance>(`${this.apiUrl}/bp/products`, body);
   }
 
-  getProductFinance(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/bp/products`);
+  getProductFinance(): Observable<Finance[]> {
+    return this.http.get<Finance[]>(`${this.apiUrl}/bp/products`);
   }
 
   deleteProductFinance(id: string): Observable<any> {

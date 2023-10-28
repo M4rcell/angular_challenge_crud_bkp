@@ -17,7 +17,7 @@ export class AddComponent implements OnDestroy {
 
   addForm!: FormGroup;
 
-  productId: string = '';
+  productId: string | null = '';
   disableProductId: boolean = false;
 
   constructor(
@@ -142,8 +142,6 @@ export class AddComponent implements OnDestroy {
   save() {
     if (this.addForm.invalid) {
       this.addForm.markAllAsTouched();
-      //this.addForm.controls['id'].errors;
-      //this.addForm.get('id')?.invalid;
       this.addForm.controls['id'].touched;
       this.addForm.get('id')?.markAsTouched;
       return;

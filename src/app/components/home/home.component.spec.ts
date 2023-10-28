@@ -30,6 +30,7 @@ describe('HomeComponent', () => {
     financeService = jasmine.createSpyObj('FinanceService', [
       'setSharetProductFinance',
       'deleteProductFinance',
+      'getProductFinance',
     ]);
     router = jasmine.createSpyObj('Router', ['navigate']);
 
@@ -54,7 +55,6 @@ describe('HomeComponent', () => {
 
   //add
   it('should navigate to /agregar', () => {
-    spyOn(router, 'navigate');
     component.addNewProduct();
     expect(router.navigate).toHaveBeenCalledWith(['/agregar']);
   });
@@ -104,4 +104,47 @@ describe('HomeComponent', () => {
   afterEach(() => {
     component.ngOnDestroy(); // Limpia las suscripciones después de cada prueba
   });
+
+  it('should toggle context menu', () => {
+    const event = new Event('contextmenu');
+    const item = { id: 1, name: 'Item 1' };
+
+    component.toggleContextMenu(event, item);
+
+    expect(component.contextMenuOpen).toBe(true);
+    expect(component.selectedItem).toBe(item);
+    expect(component.contextMenuStyles).toBeDefined();
+  });
+
+  it('should close context menu', () => {
+    component.contextMenuOpen = true;
+
+    const event = new Event('contextmenu');
+    const item = { id: 1, name: 'Item 1' };
+
+    component.toggleContextMenu(event, item);
+
+    expect(component.contextMenuOpen).toBe(false);
+    expect(component.selectedItem).toBe(item);
+    expect(component.contextMenuStyles).toBeDefined();
+  });
+
+  it('should call financeService.getProductFinance on success', () => {
+    financeService.getProductFinance.and.returnValue(of());
+
+    component.getAllProductFinance();
+
+    expect(financeService.getProductFinance).toHaveBeenCalled();
+  });
+  /*
+  it('should handle error', () => {
+    const errorMessage = 'Error fetching product finance';
+
+    financeService.getProductFinance.and.returnValue(throwError(errorMessage));
+    spyOn(console, 'log');
+
+    component.getAllProductFinance();
+
+    expect(console.log).toHaveBeenCalledWith('Error:', errorMessage);
+  }); */
 });

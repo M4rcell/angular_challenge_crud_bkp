@@ -83,7 +83,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   getAllProductFinance() {
     this.subscription.add(
       this.financeService.getProductFinance().subscribe(
-        (response: Finance) => {
+        (response: any) => {
           //this.productFinanceData = response;
         },
         error => {
