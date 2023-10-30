@@ -31,6 +31,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   productsFinance$!: Observable<Finance[]>;
   searchControl = new FormControl('');
 
+  products: Finance[] = [];
+  pageSize = 5;
+  currentPage = 1;
+
   constructor(
     private router: Router,
     private financeService: FinanceService
@@ -50,12 +54,15 @@ export class HomeComponent implements OnInit, OnDestroy {
       map(([products, search]) => {
         const searchTerm = search.toLowerCase().trim();
         let preFilterSearch: Finance[] = [...products];
-        return (preFilterSearch = products.filter((finance: Finance) => {
+        let preFilter: Finance[] = [];
+        preFilterSearch = products.filter((finance: Finance) => {
           return (
             String(finance.name).toLowerCase().includes(searchTerm) ||
             String(finance.description).toLowerCase().includes(searchTerm)
           );
-        }));
+        });
+        this.products = preFilterSearch;
+        return (preFilter = preFilterSearch);
       })
     );
   }
@@ -103,12 +110,30 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.financeService.deleteProductFinance(value.id).subscribe(
         response => {
-          this.getAllProductFinance();
+          //this.getAllProductFinance();
         },
         error => {
           console.log(error);
         }
       )
     );
+  }
+
+  get paginatedProducts() {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    return this.products.slice(startIndex, endIndex);
+  }
+
+  nextPage() {
+    if (this.currentPage * this.pageSize < this.products.length) {
+      this.currentPage++;
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
   }
 }

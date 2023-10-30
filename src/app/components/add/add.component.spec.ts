@@ -8,14 +8,7 @@ import { of, throwError } from 'rxjs';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { FinanceService } from 'src/app/services/finance.service';
 import { Finance } from 'src/app/core/models/finance.model';
-
-/* const activatedRouteMock = {
-  snapshot: {
-    paramMap: {
-      get: (param: string) => 'valor-de-prueba',
-    },
-  },
-}; */
+import * as dayjs from 'dayjs';
 
 const productFinance = {
   id: 'trj-crd001',
@@ -44,6 +37,7 @@ describe('AddComponent', () => {
 
   beforeEach(() => {
     financeService = jasmine.createSpyObj('FinanceService', [
+      'createdNewProductFinance',
       'updateProductFinance',
       'getSharetProductFinance',
     ]);
@@ -51,28 +45,64 @@ describe('AddComponent', () => {
     TestBed.configureTestingModule({
       declarations: [AddComponent],
       imports: [HttpClientModule, RouterTestingModule, ReactiveFormsModule],
-      providers: [
-        { provide: FinanceService, useValue: financeService },
-        /* {
-          provide: ActivatedRoute,
-          useValue: {
-            paramMap: of({ get: (param: string) => '1' }), // Simulamos un valor de '1' para 'id'
-          },
-        },
-        FormBuilder, */
-      ],
+      providers: [{ provide: FinanceService, useValue: financeService }],
     });
     fixture = TestBed.createComponent(AddComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     //add
-    //formBuilder = TestBed.inject(FormBuilder);
+    formBuilder = TestBed.inject(FormBuilder);
+    component.addForm = formBuilder.group(productFinance);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
+  // Method for onChangeDate
+  it('should update date_revision when date_release is greater than or equal to current date', () => {
+    const currentDate = dayjs().format('YYYY-MM-DD');
+    component.addForm.get('date_release')?.setValue(currentDate);
+
+    component.onChangeDate(new Event('change'));
+
+    const expectedDateRevision = dayjs(currentDate)
+      .add(1, 'year')
+      .format('YYYY-MM-DD');
+    expect(component.addForm.get('date_revision')?.value).toBe(
+      expectedDateRevision
+    );
+  });
+
+  it('should set "required" error for date_release and date_revision when date_release is less than current date', () => {
+    const pastDate = dayjs().subtract(1, 'year').format('YYYY-MM-DD');
+    component.addForm.get('date_release')?.setValue(pastDate);
+
+    component.onChangeDate(new Event('change'));
+
+    expect(component.addForm.get('date_release')?.hasError('required')).toBe(
+      true
+    );
+    expect(component.addForm.get('date_revision')?.hasError('required')).toBe(
+      true
+    );
+  });
+
+  it('should not set "required" error for date_release and date_revision when date_release is valid', () => {
+    const currentDate = dayjs().format('YYYY-MM-DD');
+    component.addForm.get('date_release')?.setValue(currentDate);
+
+    component.onChangeDate(new Event('change'));
+
+    expect(component.addForm.get('date_release')?.hasError('required')).toBe(
+      false
+    );
+    expect(component.addForm.get('date_revision')?.hasError('required')).toBe(
+      false
+    );
+  });
+
+  // method rest form
   it('should reset the form', () => {
     // Simula que se llenan algunos campos del formulario
     component.addForm.setValue(productFinance);
@@ -83,85 +113,97 @@ describe('AddComponent', () => {
   });
 
   // Metodo save
-  /*
-  it('should not create or update when the form is invalid', () => {
-    const createdNewProductSpy = spyOn(component, 'createdNewProduct');
-    const updateProductSpy = spyOn(component, 'updateProduct');
+  it('should call createdNewProduct when productId is falsy', () => {
+    spyOn(component, 'createdNewProduct');
+    component.productId = null; // Falsy value
 
-    // Marcar el formulario como inválido
-    //component.addForm.get('id').setErrors({ required: true });
-
-    // Llamar a la función save
     component.save();
 
-    // Comprobar que las funciones de creación o actualización no se llaman
-    expect(createdNewProductSpy).not.toHaveBeenCalled();
-    expect(updateProductSpy).not.toHaveBeenCalled();
+    expect(component.createdNewProduct).toHaveBeenCalled();
   });
 
-  it('should call createdNewProduct when form is valid and productId is null', () => {
-    const createdNewProductSpy = spyOn(component, 'createdNewProduct');
-    const updateProductSpy = spyOn(component, 'updateProduct');
+  it('should call updateProduct when productId is truthy', () => {
+    spyOn(component, 'updateProduct');
+    component.productId = 'someValue'; // Truthy value
 
-    // Establecer productId en null
-    component.productId = null;
-
-    // Llamar a la función save
     component.save();
 
-    // Comprobar que createdNewProduct se llama y updateProduct no se llama
-    expect(createdNewProductSpy).toHaveBeenCalled();
-    expect(updateProductSpy).not.toHaveBeenCalled();
+    expect(component.updateProduct).toHaveBeenCalled();
   });
 
-  it('should call updateProduct when form is valid and productId is not null', () => {
-    const createdNewProductSpy = spyOn(component, 'createdNewProduct');
-    const updateProductSpy = spyOn(component, 'updateProduct');
+  it('should mark all controls as touched when form is invalid', () => {
+    spyOn(component.addForm, 'markAllAsTouched');
 
-    // Establecer un valor no nulo para productId
-    component.productId = '1';
-
-    // Llamar a la función save
+    // Simular un formulario inválido
+    component.addForm.get('id')?.setErrors({ someError: true });
     component.save();
 
-    // Comprobar que updateProduct se llama y createdNewProduct no se llama
-    expect(updateProductSpy).toHaveBeenCalled();
-    expect(createdNewProductSpy).not.toHaveBeenCalled();
-  });
-*/
-  /*
-  it('should set productId on paramMap change', () => {
-    // Verificamos que productId se actualice después de la suscripción al paramMap
-    expect(component.productId).toBe('1');
+    expect(component.addForm.markAllAsTouched).toHaveBeenCalled();
   });
 
-  //add
-  it('should update product and reset form', () => {
-    const formValue = productFinance;
+  // for method createdNewProduct
 
-    component.addForm.setValue(formValue);
-    financeService.updateProductFinance.and.returnValue(of());
+  it('should call createdNewProductFinance and reset form on success', () => {
+    // Supongamos que `createdNewProductFinance` retorna un observable con éxito
+    financeService.createdNewProductFinance.and.returnValue(of());
 
-    component.updateProduct();
+    component.addForm.setValue(productFinance);
 
-    expect(financeService.updateProductFinance).toHaveBeenCalledWith(formValue);
-    expect(component.addForm.value).toEqual({}); // Comprueba que el formulario se haya reseteado
+    component.createdNewProduct();
+
+    expect(financeService.createdNewProductFinance).toHaveBeenCalledWith(
+      component.addForm.value
+    );
+    expect(component.addForm.value).toEqual(productFinance); // Verifica que el formulario se haya reseteado
   });
 
-  it('should handle error', () => {
-    const errorMessage = 'Error updating product finance';
-    financeService.updateProductFinance.and.returnValue(
+  it('should log error on failure createdNewProductFinance ', () => {
+    const errorMessage = 'Error en la creación del producto';
+
+    financeService.createdNewProductFinance.and.returnValue(
       throwError(errorMessage)
     );
 
-    spyOn(console, 'log');
+    spyOn(console, 'log'); // Espía el método console.log
+
+    component.addForm.setValue(productFinance);
+
+    component.createdNewProduct();
+
+    expect(console.log).toHaveBeenCalledWith(errorMessage); // Verifica que se haya registrado el error
+  });
+
+  // for method updateProduct
+  it('should call updateProductFinance and reset form on success', () => {
+    const mockResponse = {
+      /* Mock the response object */
+    };
+    financeService.updateProductFinance.and.returnValue(of());
+
+    // Asegúrate de tener valores en el formulario antes de llamar a la función
+    component.addForm.patchValue(productFinance);
 
     component.updateProduct();
 
-    expect(console.log).toHaveBeenCalledWith(errorMessage);
+    expect(financeService.updateProductFinance).toHaveBeenCalledWith(
+      component.addForm.value
+    );
+    //expect(component.reset).toHaveBeenCalled();
   });
 
+  it('should log error on failure updateProductFinance', () => {
+    const mockError = new Error('An error occurred');
+    financeService.updateProductFinance.and.returnValue(throwError(mockError));
+    spyOn(console, 'log'); // Espía el método console.log
+
+    component.addForm.setValue(productFinance);
+    component.updateProduct();
+
+    expect(console.log).toHaveBeenCalledWith(mockError);
+  });
+
+  // Ondestroy
   afterEach(() => {
     component.ngOnDestroy(); // Limpia las suscripciones después de cada prueba
-  }); */
+  });
 });

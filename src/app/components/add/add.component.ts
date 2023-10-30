@@ -25,7 +25,7 @@ export class AddComponent implements OnDestroy {
     private financeService: FinanceService,
     private route: ActivatedRoute
   ) {
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params: any) => {
       this.productId = params.get('id')!;
     });
 
@@ -35,11 +35,11 @@ export class AddComponent implements OnDestroy {
     } else {
       this.subscription.add(
         this.financeService.getSharetProductFinance().subscribe(
-          response => {
+          (response: any) => {
             this.disableProductId = true;
             this.formEdit(response);
           },
-          error => {
+          (error: any) => {
             console.log(error);
           }
         )
@@ -129,7 +129,6 @@ export class AddComponent implements OnDestroy {
       const dateRevision = dayjs(fecha).add(1, 'year').format('YYYY-MM-DD');
       this.addForm.get('date_revision')?.setValue(dateRevision);
     } else {
-      //this.addForm.get('date_release')?.touched;
       this.addForm.get('date_release')?.setErrors({ required: true });
       this.addForm.get('date_revision')?.setErrors({ required: true });
     }
@@ -159,10 +158,11 @@ export class AddComponent implements OnDestroy {
       this.financeService
         .createdNewProductFinance(this.addForm.value)
         .subscribe(
-          response => {
-            this.addForm.reset();
+          (response: any) => {
+            this.reset();
+            alert('Se guardo correctamente');
           },
-          error => {
+          (error: any) => {
             console.log(error);
           }
         )
@@ -172,10 +172,11 @@ export class AddComponent implements OnDestroy {
   updateProduct(): void {
     this.subscription.add(
       this.financeService.updateProductFinance(this.addForm.value).subscribe(
-        response => {
-          this.addForm.reset();
+        (response: any) => {
+          this.reset();
+          alert('Se modifico correctamente');
         },
-        error => {
+        (error: any) => {
           console.log(error);
         }
       )

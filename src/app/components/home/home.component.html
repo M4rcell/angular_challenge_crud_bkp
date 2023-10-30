@@ -11,21 +11,21 @@
       Agregar
     </button>
   </div>
-  <div class="wp-home__table">
-    <div class="wp-home__table--wp">
-      <table class="table">
-        <tr class="table__header">
-          <th>Logo</th>
-          <th>Nombre de producto</th>
-          <th>Descripcion</th>
-          <th>Fecha de liberacion</th>
-          <th>Fecha de reestructuracion</th>
-          <th></th>
-        </tr>
-        <ng-container *ngIf="productsFinance$ | async as productFinanceData">
+  <ng-container *ngIf="productsFinance$ | async as productFinanceData">
+    <div class="wp-home__table">
+      <div class="wp-home__table--wp">
+        <table class="table">
+          <tr class="table__header">
+            <th>Logo</th>
+            <th>Nombre de producto</th>
+            <th>Descripcion</th>
+            <th>Fecha de liberacion</th>
+            <th>Fecha de reestructuracion</th>
+            <th></th>
+          </tr>
           <tr
             class="table__body"
-            *ngFor="let item of productFinanceData; let i = index">
+            *ngFor="let item of paginatedProducts; let i = index">
             <td>
               <img
                 class="table__body--logo"
@@ -55,14 +55,30 @@
               </div>
             </td>
           </tr>
-        </ng-container>
-      </table>
+        </table>
+      </div>
+      <div class="wp-home__counter">
+        <div class="wp-home__counter--result">
+          {{ productFinanceData.length }} resultados
+        </div>
+        <div>
+          <button
+            class="wp-home__counter--page-pre"
+            (click)="previousPage()"
+            [disabled]="currentPage === 1">
+            <
+          </button>
+          <select class="wp-home__counter--select" name="" id="">
+            <option value="">5</option>
+          </select>
+          <button
+            class="wp-home__counter--page-nex"
+            (click)="nextPage()"
+            [disabled]="currentPage * pageSize >= products.length">
+            >
+          </button>
+        </div>
+      </div>
     </div>
-    <div class="wp-home__counter">
-      <div class="wp-home__counter--result">5 resultados</div>
-      <select class="wp-home__counter--select" name="" id="">
-        <option value="">5</option>
-      </select>
-    </div>
-  </div>
+  </ng-container>
 </div>

@@ -35,8 +35,11 @@ export class FinanceService {
     return this.http.get<Finance[]>(`${this.apiUrl}/bp/products`);
   }
 
+  /* verifyProductFinance(id: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/bp/products/verification?id=${id}`);
+  }
+ */
   deleteProductFinance(id: string): Observable<any> {
-    console.log('🚀  deleteProductFinance ~ id:', id);
     return this.http.delete(`${this.apiUrl}/bp/products?id=${id}`);
   }
 }
